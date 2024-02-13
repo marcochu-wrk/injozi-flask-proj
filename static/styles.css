@@ -1,0 +1,59 @@
+body{
+ background-color: rgb(51, 48, 60);   
+}
+h1{
+    color: white;
+    font-family: "Poppins"; 
+}
+p{
+    color: white;
+    font-family: "Poppins";
+    font-size: 16px;
+}
+form{
+    background-color: rgb(172, 167, 186);
+    padding-top: 2rem;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    padding-bottom: 5rem;
+    border-radius: 2rem;
+}
+label{
+    font-weight: bold;
+}
+input{
+    font-size: 14px;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+button{
+    border-radius: 1rem;
+    width: 7rem;
+    padding: 0.5rem;
+}
+button:hover{
+    color: white;
+    background-color: rgb(114, 85, 194);
+}
+.content{
+    max-width: 30rem;
+    padding: 2rem;
+}
+.main-container{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+}
+.sign-in-heading{
+    font-size: 20px;
+}
+.header{
+    font-size: 28px;
+    margin-bottom: 2rem;
+    font-family: "Poppins";
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}

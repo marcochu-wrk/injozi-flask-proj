@@ -3,15 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MongoDB Flask App</title>
-    <link rel="stylesheet" href="{{ url_for('static' , filename='css/styles.css') }}">
+    <title>Injozi Flask App</title>
+    <!-- <link rel="stylesheet" href="{{ url_for('static' , filename='css/styles.css') }}"> -->
+    <link rel="stylesheet" href="static/styles.css">
 </head>
 <body>
-    <h1>MongoDB Flask App</h1>
-    <div class="content">
-        <form method="POST">
-            
-        </form>
+    <div class="main-container">
+        <h1>Injozi Flask App</h1>
+        <div class="content">
+            <form method="POST">
+                <div class="header">Sign In</div>
+                <p>
+                    <b><label for="content" class="sign-in-heading">Todo Content</label></b>
+                </p>
+                <p>
+                    <input type="text" 
+                        name="content" 
+                        placeholder="Add To do">
+                </p>
+                <p>
+                    <b><label for="degree" class="sign-in-heading">User Type</label></b>
+                </p>
+                <p>
+                    <input type="radio" 
+                        name="degree"
+                        required  
+                        id="degree-0"
+                        value="important">
+                        <label for="degree-0">Admin</label>
+                </p>
+                <p>
+                    <input type="radio" 
+                        name="degree"
+                        required  
+                        id="degree-1"
+                        value="unimportant">
+                        <label for="degree-1">User</label>
+                </p>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
