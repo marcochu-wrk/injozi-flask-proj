@@ -2,6 +2,7 @@ version: '3.9'
 
 services:
   flask_app:
+    build: .
     image: injoziflask
     ports:
       - 5003:5003
