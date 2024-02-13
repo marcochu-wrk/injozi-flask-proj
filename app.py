@@ -16,7 +16,9 @@ valid_login = [
     {"id": 3, "username":"User_3", "password": "3"}
 ]
 
-
+@app.route("/")
+def hello_world():
+    return "<p>Hello, World!</p>"
 
 @app.route('/login', methods=['POST','GET'])
 def login():
@@ -54,4 +56,4 @@ def create_book():
     return jsonify(new_book), 201
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(host="0.0.0.0", port=int("5003"),debug = True)
