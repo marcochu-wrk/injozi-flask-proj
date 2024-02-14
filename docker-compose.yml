@@ -5,4 +5,11 @@ services:
     build: .
     image: injoziflask
     ports:
-      - 5003:5003
+      - "5003:5003"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"

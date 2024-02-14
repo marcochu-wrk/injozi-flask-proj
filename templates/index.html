@@ -14,12 +14,20 @@
             <form method="POST" class="mainform">
                 <div class="header">Sign In</div>
                 <p>
-                    <b><label for="content" class="sign-in-heading">Todo Content</label></b>
+                    <b><label for="content" class="sign-in-heading">User Name</label></b>
                 </p>
                 <p>
                     <input type="text" 
                         name="username" 
-                        placeholder="Add To do">
+                        placeholder="Add Username">
+                </p>
+                <p>
+                    <b><label for="content" class="sign-in-heading">Password</label></b>
+                </p>
+                <p>
+                    <input type="text" 
+                        name="password" 
+                        placeholder="Add Password">
                 </p>
                 <p>
                     <b><label for="degree" class="sign-in-heading">User Type</label></b>
@@ -29,7 +37,7 @@
                         name="usertype"
                         required  
                         id="degree-0"
-                        value="admin">
+                        value="super">
                         <label for="degree-0">Super</label>
                 </p>
                 <p>
@@ -49,6 +57,7 @@
                         <label for="degree-2">User</label>
                 </p>
                 <button type="submit">Submit</button>
+                <a href="{{ url_for('forgot_password') }}">Forgot Password</a>
             </form>
             <hr>
             {% for user in users %}
