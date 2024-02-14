@@ -57,3 +57,12 @@ button:hover{
     font-weight: bold;
     text-align: center;
 }
+#forgot_user_submit_btn{
+    margin-top: 1rem;
+}
+.alert-warning{
+    color: white;
+    font-family: "Poppins";
+    font-size: 12px;
+    margin-bottom: 0.5rem;
+}

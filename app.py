@@ -25,6 +25,7 @@ def index():
     all_users = users.find()
     return render_template('index.html', users = all_users)
 
+#Route to forgot password
 @app.route('/forgot_password', methods=['POST' , 'GET'])
 def forgot_password():
     if request.method == 'POST':
@@ -38,6 +39,7 @@ def forgot_password():
             return render_template('forgot_password.html', message='User name was not found')
     return render_template('forgot_password.html')
 
+#Rest password if username exists
 @app.route('/reset_password/<username>', methods=['GET', 'POST'])
 def reset_password(username):
     if request.method == 'POST':
