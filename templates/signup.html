@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Injozi Flask App</title>
-    <!-- <link rel="stylesheet" href="{{ url_for('static' , filename='css/styles.css') }}"> -->
-    <link rel="stylesheet" href="static/styles.css">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <div class="main-container">
@@ -54,7 +53,9 @@
                         <label for="degree-2">User</label>
                 </p>
                 <button type="submit">Submit</button>
-                <a href="{{ url_for('forgot_password') }}">Forgot Password</a>
+                <p>
+                    <a href="{{ url_for('forgot_password') }}">Forgot Password</a>
+                </p>
             </form>
             <hr>
             {% for user in users %}

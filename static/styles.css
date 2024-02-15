@@ -28,8 +28,9 @@ input{
 }
 button{
     border-radius: 1rem;
-    width: 7rem;
+    width: 10rem;
     padding: 0.5rem;
+    font-family: "Poppins";
 }
 button:hover{
     color: white;
@@ -56,6 +57,13 @@ button:hover{
     color: white;
     font-weight: bold;
     text-align: center;
+}
+.sub-header{
+    font-size: 20px;
+    margin-bottom: 1rem;
+    font-family: "Poppins";
+    color: white;
+    text-align: left;
 }
 #forgot_user_submit_btn{
     margin-top: 1rem;
