@@ -4,27 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> 
 </head>
 <body>
-    <button>Logout</button>
+    <button id="logoutButton">Logout</button>
     <div>Welcome! Your role is: <span id="user-role"></span></div>
- 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-          const token = localStorage.getItem('token');
-          if (token) {
-            fetch('/auth', {
-              method: 'GET',
-              headers: {'Authorization': 'Bearer ' + token}
-            }).then(response => response.json())
-              .then(data => {
-                // Display the user's role on the page
-                document.getElementById('user-role').textContent = data.role;
-              });
-          }
-        });
-        </script>
+    <script src="{{ url_for('static', filename='logout.js') }}"></script>
+    <script src="{{ url_for('static', filename='user_role.js') }}"></script>
 </body>
 </html>

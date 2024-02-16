@@ -65,7 +65,7 @@ def auth():
     return jsonify({'role': request.user_role})
 
 #Checking if user exists in db and creating a session
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST','GET'])
 def login():
     username = request.form['username']
     password = request.form['password']
@@ -82,7 +82,16 @@ def login():
             app.config['SECRET_KEY'])
         return jsonify({'token':token})
     else:
-        return make_response('Unable to verify', 403, {'WWW-Authenticate':'Basic realm:"Authentication Failed"'})
+         #Check if user is already logged in
+        if session.get('logged_in'):
+            return redirect(url_for('home'))
+        return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('home'))  # Use the name of the function
+
 
 #Adding user to mongoDb
 @app.route("/signup", methods=['POST', 'GET'])
