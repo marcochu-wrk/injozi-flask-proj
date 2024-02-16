@@ -24,15 +24,23 @@ users = db.users
 def token_required(func):
     @wraps(func)
     def decorated(*args, **kwargs):
-        token = request.args.get('token')
+        #Extract token from the Authorization header
+        auth_header = request.headers.get('Authorization')
+        token = None
+        if auth_header and auth_header.startswith('Bearer '):
+            token = auth_header.split(" ")[1]
+        
         if not token:
-            session['logged_in'] = False  # Ensuring session is cleared or updated
             return jsonify({'Alert': 'Token is missing'}), 403
+        
         try:
             payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
-        except:
-            session['logged_in'] = False
-            return jsonify({'Alert': 'Invalid token'}), 403
+            request.user_role = payload.get('role')
+        except jwt.ExpiredSignatureError:
+            return jsonify({'Alert': 'Token has expired'}), 401  #Token is expired
+        except jwt.InvalidTokenError:
+            return jsonify({'Alert': 'Invalid token'}), 403  #Token is invalid
+            
         return func(*args, **kwargs)
     return decorated
 
@@ -54,7 +62,7 @@ def public():
 @app.route('/auth')
 @token_required
 def auth():
-    return 'JWT is verified'
+    return jsonify({'role': request.user_role})
 
 #Checking if user exists in db and creating a session
 @app.route('/login', methods=['POST'])
@@ -63,11 +71,12 @@ def login():
     password = request.form['password']
 
     user = users.find_one({"username":username, "password":password})
-    print
     if user:
+        user_role = user.get('role','USER')
         session['logged_in'] = True
         token = jwt.encode({
             'user':request.form['username'],
+            'role': user_role,
             'exp': datetime.utcnow() + timedelta(seconds=120)
         },
             app.config['SECRET_KEY'])
@@ -81,8 +90,8 @@ def signup():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        usertype = request.form['usertype']
-        users.insert_one({'username':username, 'password':password , 'usertype':usertype})
+        role = request.form['role']
+        users.insert_one({'username':username, 'password':password , 'role':role})
         return redirect(url_for('signup'))
     all_users = users.find()
     return render_template('signup.html', users = all_users)

@@ -33,21 +33,21 @@
                 </p>
                 <p>
                     <input type="radio" 
-                        name="usertype"
+                        name="role"
                         required  
                         value="super">
                         <label for="degree-0">Super</label>
                 </p>
                 <p>
                     <input type="radio" 
-                        name="usertype"
+                        name="role"
                         required  
                         value="admin">
                         <label for="degree-1">Admin</label>
                 </p>
                 <p>
                     <input type="radio" 
-                        name="usertype"
+                        name="role"
                         required  
                         value="user">
                         <label for="degree-2">User</label>
@@ -62,7 +62,7 @@
                 <div class="user">
                     <p>
                         {{ user['username'] }}
-                        {{ user['usertype'] }}
+                        {{ user['role'] }}
                     </p>
                     <form method="POST" 
                         action="{{ url_for('delete',id=user['_id']) }}">
