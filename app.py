@@ -50,8 +50,13 @@ def home():
     if not session.get('logged_in'):
         return render_template('login.html')
     else:
-        #render main page based on user type
-        return render_template('home.html')
+        user_role = session.get('role')
+    if user_role in ['admin', 'super']:
+        user_collection = users.find()
+        users_list = list(user_collection)
+        return render_template('home.html', users=users_list, role=user_role)
+    else:
+        return render_template('home.html', role=user_role)
 
 #Public
 @app.route('/public')
@@ -74,6 +79,7 @@ def login():
     if user:
         user_role = user.get('role','USER')
         session['logged_in'] = True
+        session['role'] = user_role
         token = jwt.encode({
             'user':request.form['username'],
             'role': user_role,
@@ -100,10 +106,15 @@ def signup():
         username = request.form['username']
         password = request.form['password']
         role = request.form['role']
-        users.insert_one({'username':username, 'password':password , 'role':role})
-        return redirect(url_for('signup'))
-    all_users = users.find()
-    return render_template('signup.html', users = all_users)
+
+        existing_user = users.find_one({'username': username})
+        if existing_user:
+            return "Username already exists.", 400
+
+        users.insert_one({'username': username, 'password': password, 'role': role})
+        return redirect(url_for('home'))
+
+    return render_template('signup.html')
 
 #Route to forgot password
 @app.route('/forgot_password', methods=['POST' , 'GET'])
@@ -135,7 +146,7 @@ def reset_password(username):
 def delete(id):
     #Delete user by getting mongo object id
     users.delete_one({"_id":ObjectId(id)})
-    return redirect(url_for('signup'))
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=int("5003"),debug = True)

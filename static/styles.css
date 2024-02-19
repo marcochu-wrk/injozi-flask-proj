@@ -18,6 +18,14 @@ form.mainform{
     padding-bottom: 5rem;
     border-radius: 2rem;
 }
+.mainpage{
+    background-color: rgb(172, 167, 186);
+    padding-top: 2rem;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    padding-bottom: 5rem;
+    border-radius: 2rem;
+}
 label{
     font-weight: bold;
 }
