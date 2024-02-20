@@ -1,14 +1,17 @@
 from flask import Flask, jsonify, request, render_template, url_for, redirect, flash, session
-import jwt
 from datetime import datetime, timedelta
 from functools import wraps
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+import jwt
+import json
 
 app = Flask(__name__)
 
+with open('config.json') as config_file:
+    config = json.load(config_file)
 #JWT secret key
-app.config['SECRET_KEY'] = 'b0c28c7c1c7a4b4f959abda78d11971e'
+app.config['SECRET_KEY'] = config['SECRET_KEY']
 
 #Local db connection string
 client =  MongoClient('localhost', 27017)
@@ -18,7 +21,7 @@ client =  MongoClient('localhost', 27017)
 
 #mongodb database
 db = client.flask_database
-#todos collection
+#users collection
 users = db.users
 
 def token_required(func):
@@ -36,6 +39,7 @@ def token_required(func):
         try:
             payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
             request.user_role = payload.get('role')
+            request.user_name = payload.get('user')
         except jwt.ExpiredSignatureError:
             return jsonify({'Alert': 'Token has expired'}), 401  #Token is expired
         except jwt.InvalidTokenError:
@@ -51,12 +55,19 @@ def home():
         return render_template('login.html')
     else:
         user_role = session.get('role')
-    if user_role in ['admin', 'super']:
+    if user_role in ['super']:
         user_collection = users.find()
         users_list = list(user_collection)
         return render_template('home.html', users=users_list, role=user_role)
-    else:
-        return render_template('home.html', role=user_role)
+    elif user_role in['admin','user']:
+        user_id = session.get('user_id')
+        if user_id:
+            user_collection = users.find({'_id': ObjectId(user_id)})
+            users_list=list(user_collection)
+            return render_template('home.html', users=users_list, role=user_role)
+        else:
+            return "UserId not found", 404
+        
 
 #Public
 @app.route('/public')
@@ -67,7 +78,7 @@ def public():
 @app.route('/auth')
 @token_required
 def auth():
-    return jsonify({'role': request.user_role})
+    return jsonify({'role': request.user_role, 'username': request.user_name})
 
 #Checking if user exists in db and creating a session
 @app.route('/login', methods=['POST','GET'])
@@ -80,6 +91,7 @@ def login():
         user_role = user.get('role','USER')
         session['logged_in'] = True
         session['role'] = user_role
+        session['user_id'] = str(user['_id'])
         token = jwt.encode({
             'user':request.form['username'],
             'role': user_role,

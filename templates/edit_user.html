@@ -9,13 +9,23 @@
 <body>
     <div class="main-container">
         <h1>Edit User</h1>
-        <form method="POST">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" value="{{ user['username'] }}" required>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-            <input type="submit" value="Update User">
-        </form>
+        <div class="content">
+            <form class="mainform" method="POST">
+                <p> 
+                    <label for="username">Username:</label>
+                </p>
+                <p>
+                    <input type="text" id="username" name="username" value="{{ user['username'] }}" required>
+                </p>
+                <p>
+                    <label for="password">Password:</label>
+                </p>
+                <p>
+                    <input type="password" id="password" name="password" required>
+                </p>
+                <input class="inputBtn" type="submit" value="Update User">
+            </form>
+        </div>
     </div>
 </body>
 </html>

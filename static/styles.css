@@ -82,3 +82,6 @@ button:hover{
     font-size: 12px;
     margin-bottom: 0.5rem;
 }
+.inputBtn{
+    font-family: "Poppins";
+}
