@@ -11,4 +11,5 @@ If user is going to run through docker please switch the connection string from 
 ## Project Notes
 ```
 Database is hosted on mongodb://localhost:27017
+Application is hosted on port 5003
 
