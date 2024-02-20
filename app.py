@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template, url_for, redirect, make_response, session
+from flask import Flask, jsonify, request, render_template, url_for, redirect, flash, session
 import jwt
 from datetime import datetime, timedelta
 from functools import wraps
@@ -88,9 +88,11 @@ def login():
             app.config['SECRET_KEY'])
         return jsonify({'token':token})
     else:
-         #Check if user is already logged in
+
         if session.get('logged_in'):
             return redirect(url_for('home'))
+        
+        flash('Your username or password does not match', 'danger')
         return render_template('login.html')
 
 @app.route('/logout')
@@ -140,6 +142,21 @@ def reset_password(username):
         #Redirecting to sign in page
         return redirect(url_for('login'))
     return render_template('reset_password.html', username=username)
+
+#Editing user profile based on _id
+@app.route('/edit/<id>', methods=['GET', 'POST'])
+def edit(id):
+    if request.method == 'POST':
+        new_username = request.form['username']
+        new_password = request.form['password']
+        users.update_one({"_id": ObjectId(id)}, {"$set": {"username": new_username, "password": new_password}})
+        return redirect(url_for('home'))
+    else:
+        user = users.find_one({"_id": ObjectId(id)})
+        if user:
+            return render_template('edit_user.html', user=user)
+        else:
+            return 'User not found', 404
 
 #Deleting user from mongoDb via _id
 @app.post("/<id>/delete/")
