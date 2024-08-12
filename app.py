@@ -14,10 +14,10 @@ with open('config.json') as config_file:
 app.config['SECRET_KEY'] = config['SECRET_KEY']
 
 #Local db connection string
-client =  MongoClient('localhost', 27017)
+# client =  MongoClient('localhost', 27017)
 
 #Docker db connection string
-# client =  MongoClient('mongo', 27017)
+client =  MongoClient('mongo', 27017)
 
 #mongodb database
 db = client.flask_database
